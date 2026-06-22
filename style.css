@@ -1,0 +1,19 @@
+.featured-book{
+    width:70%;
+    margin:30px auto;
+    padding:20px;
+    background-color:#f5deb3;
+    border:2px solid #8b4513;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:5px 5px 10px gray;
+}
+
+.featured-book h3{
+    color:#a52a2a;
+}
+
+.featured-book p{
+    color:#5c4033;
+    font-size:18px;
+}
