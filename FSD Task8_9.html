@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>The Love Deception</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #f6f1f7, #e0d4ff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      width: 320px;
+      text-align: center;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    #quote {
+      margin: 15px 0;
+      font-style: italic;
+      color: #333;
+      min-height: 40px;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      background: #a66cff;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    button:hover {
+      background: #8b4dff;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>The Love Deception</h2>
+
+  <div id="quote">Click a button to see output</div>
+
+  <button onclick="showAlert()">See Message</button>
+  <button onclick="changeText()">Reveal Quote</button>
+</div>
+
+<script>
+function showAlert() {
+  alert("💜 The Love Deception:\n\n'Sometimes love finds you when you least expect it.'");
+}
+
+function changeText() {
+  document.getElementById("quote").textContent =
+  "💜 The Love Deception: Fake dating turns into real feelings.";
+}
+</script>
+
+</body>
+</html>
