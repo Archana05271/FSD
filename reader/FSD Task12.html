@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reader's Corner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px;
+        }
+
+        .container {
+            width: 850px;
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2f855a;
+            margin-bottom: 8px;
+            font-size: 38px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dcdcdc;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #2f855a;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        button {
+            width: 48%;
+            padding: 13px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .show {
+            background: #2f855a;
+            color: white;
+        }
+
+        .show:hover {
+            background: #256d48;
+        }
+
+        .reset {
+            background: white;
+            border: 2px solid #2f855a;
+            color: #2f855a;
+        }
+
+        .reset:hover {
+            background: #2f855a;
+            color: white;
+        }
+
+        #result {
+            display: none;
+            margin-top: 35px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            background: #fafafa;
+        }
+
+        .result-box {
+            display: flex;
+            gap: 25px;
+            align-items: flex-start;
+        }
+
+        .book-image {
+            width: 180px;
+        }
+
+        .book-image img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 12px rgba(0,0,0,.15);
+        }
+
+        .book-details {
+            flex: 1;
+        }
+
+        .book-details h2 {
+            color: #2f855a;
+            margin-bottom: 15px;
+        }
+
+        .book-details p {
+            margin: 10px 0;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .book-name {
+            margin-top: 18px;
+            padding: 12px;
+            background: #eef8f2;
+            border-left: 4px solid #2f855a;
+            font-weight: bold;
+            color: #2f855a;
+        }
+
+        @media(max-width:768px) {
+            .container {
+                width: 100%;
+            }
+
+            .result-box {
+                flex-direction: column;
+            }
+
+            .book-image {
+                width: 100%;
+                text-align: center;
+            }
+
+            .book-image img {
+                width: 220px;
+            }
+
+            .buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Reader's Corner</h1>
+        <p class="subtitle">Find your next favorite book.</p>
+
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" id="name" placeholder="Enter your name">
+        </div>
+
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="email" placeholder="Enter your email">
+        </div>
+
+        <div class="form-group">
+            <label>Age</label>
+            <input type="number" id="age" placeholder="Enter your age">
+        </div>
+
+        <div class="form-group">
+            <label>Favorite Author</label>
+            <input type="text" id="author" placeholder="Enter author's name">
+        </div>
+
+        <div class="form-group">
+            <label>Reading Habit</label>
+            <select id="habit">
+                <option value="">Choose</option>
+                <option>Daily</option>
+                <option>Weekly</option>
+                <option>Monthly</option>
+                <option>Occasionally</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Favorite Genre</label>
+            <select id="genre">
+                <option value="">Choose</option>
+                <option>Romance</option>
+                <option>Rom-Com</option>
+                <option>Horror</option>
+                <option>Thriller</option>
+                <option>Investigation</option>
+                <option>Fantasy</option>
+            </select>
+        </div>
+
+        <div class="buttons">
+            <button class="show" onclick="showBook()">
+                Show Recommendation
+            </button>
+
+            <button class="reset" onclick="resetForm()">
+                Reset
+            </button>
+        </div>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function showBook() {
+            let name = document.getElementById("name").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let age = document.getElementById("age").value;
+            let author = document.getElementById("author").value.trim();
+            let habit = document.getElementById("habit").value;
+            let genre = document.getElementById("genre").value;
+
+            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (name == "") {
+                alert("Please enter your name.");
+                return;
+            }
+
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email.");
+                return;
+            }
+
+            if (age == "") {
+                alert("Please enter your age.");
+                return;
+            }
+
+            if (author == "") {
+                alert("Please enter your favorite author.");
+                return;
+            }
+
+            if (habit == "") {
+                alert("Please select your reading habit.");
+                return;
+            }
+
+            if (genre == "") {
+                alert("Please select your favorite genre.");
+                return;
+            }
+
+            let book = "";
+            let image = "";
+            let description = "";
+
+            switch (genre) {
+                case "Romance":
+                    book = "Pride and Prejudice";
+                    image = "https://covers.openlibrary.org/b/isbn/9780141439518-L.jpg";
+                    description = "A timeless love story filled with wit, family drama, and unforgettable characters.";
+                    break;
+
+                case "Rom-Com":
+                    book = "The Hating Game";
+                    image = "https://images-na.ssl-images-amazon.com/images/I/81UWB7oUZ0L.jpg";
+                    description = "A funny enemies-to-lovers office romance with plenty of heart.";
+                    break;
+
+                case "Horror":
+                    book = "The Shining";
+                    image = "https://covers.openlibrary.org/b/isbn/9780307743657-L.jpg";
+                    description = "A psychological horror novel that keeps readers on edge.";
+                    break;
+
+                case "Thriller":
+                    book = "Gone Girl";
+                    image = "https://covers.openlibrary.org/b/isbn/9780307588371-L.jpg";
+                    description = "A suspenseful mystery full of unexpected twists.";
+                    break;
+
+                case "Investigation":
+                    book = "Sherlock Holmes";
+                    image = "https://covers.openlibrary.org/b/isbn/9780141034324-L.jpg";
+                    description = "Classic detective stories featuring brilliant investigations.";
+                    break;
+
+                case "Fantasy":
+                    book = "Harry Potter and the Philosopher's Stone";
+                    image = "https://covers.openlibrary.org/b/isbn/9780747532699-L.jpg";
+                    description = "An unforgettable magical adventure loved by readers of all ages.";
+                    break;
+            }
+
+            let result = document.getElementById("result");
+            result.style.display = "block";
+
+            result.innerHTML = `
+                <div class="result-box">
+                    <div class="book-image">
+                        <img src="${image}" alt="${book}">
+                    </div>
+                    <div class="book-details">
+                        <h2>Book Recommendation</h2>
+                        <p><strong>Name:</strong> ${name}</p>
+                        <p><strong>Email:</strong> ${email}</p>
+                        <p><strong>Age:</strong> ${age}</p>
+                        <p><strong>Favorite Author:</strong> ${author}</p>
+                        <p><strong>Reading Habit:</strong> ${habit}</p>
+                        <p><strong>Favorite Genre:</strong> ${genre}</p>
+                        <div class="book-name">
+                            Recommended Book<br><br>
+                            ${book}
+                        </div>
+                        <p style="margin-top:15px;">
+                            ${description}
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            result.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetForm() {
+            document.getElementById("name").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("age").value = "";
+            document.getElementById("author").value = "";
+            document.getElementById("habit").selectedIndex = 0;
+            document.getElementById("genre").selectedIndex = 0;
+
+            document.getElementById("result").style.display = "none";
+        }
+    </script>
+</body>
+</html>
